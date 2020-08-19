@@ -70,8 +70,8 @@
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav> 
                                         <ul id="navigation">
-                                            <li><a href="index.php">Beranda</a></li>
-                                            <li><a href="profillembaga.php">Tentang Kami</a>
+                                            <li><a href="<?= site_url('welcome');?>">Beranda</a></li>
+                                            <li><a href="<?= site_url('welcome/profil_lembaga') ;?>">Tentang Kami</a>
                                                 <ul class="submenu">
                                                     <li><a href="<?= base_url(); ?>index.php/welcome/profil_lembaga">Profil Lembaga</a></li>
                                                     <li><a href="<?= base_url(); ?>index.php/welcome/program_paket">Program Paket</a></li>
@@ -79,16 +79,11 @@
                                                     <li><a href="<?= base_url(); ?>index.php/welcome/visi_dan_misi">Visi Dan Misi </a></li>
                                                 </ul>
                                             </li>
-                                            <?php 
-                                            
-                                            // $idsiswa = $_SESSION['login_id'];
-                                            // $siswa = mysqli_query($conn,"SELECT * FROM tbsiswa WHERE idsiswa='$idsiswa'");
-                                            // $b = mysqli_fetch_array($siswa);
-                                            if (isset($_SESSION['login_id']) && $_SESSION['login_id'] != '') { 
-                                                $id = mysqli_query($conn,"SELECT * FROM tbsiswa WHERE idsiswa='$idsiswa'");
-                                                $i = mysqli_fetch_array($id);
-                                                ?>
-                                                <li><a href="profil.php"><?=$i['nama']; ?></a></li>
+                                            <?php
+                                            if (isset($_SESSION['login_id']) && $_SESSION['login_id'] != '') {
+                                                $ids = $this->db->get_where('tbsiswa',['id_siswa' => $_SESSION['login_id']])->row_array();
+                                            ?>
+                                                <li><a href="<?= base_url('index.php/user/profil'); ?>"><?=$ids['nama']; ?></a></li>
                                             <?php } else { ?>
                                                 <li><a>Daftar/Masuk</a>
                                                   <ul class="submenu">

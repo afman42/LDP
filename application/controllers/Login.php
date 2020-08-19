@@ -98,6 +98,36 @@ class Login extends CI_Controller {
     
     public function masuk()
     {
-        echo "coba";
+        $this->load->view('home-login/login');
+    }
+
+    public function masuk_login()
+    {
+        $post = $this->input->post();
+        $email = $post['email'];
+        $password = $post['password'];
+
+        $login = $this->db->query("SELECT * FROM tbsiswa WHERE email='$email' AND password='$password'");
+        $cek = $login->num_rows();
+
+        if($cek > 0){
+            $data = $login->row_array();
+            $_SESSION['login_id'] = $data['idsiswa'];
+            $_SESSION['status'] = true;
+            redirect(site_url('user/uploadbukti'));
+        } else {
+            echo "<script>alert('Email atau password yang dimasukkan salah!');location.href='".site_url('login/masuk')."'</script>";
+        }
+    }
+
+    public function logout()
+    { 
+        unset($_SESSION['login_id']);
+        session_destroy();
+        echo "
+        <script>
+            alert('Logout Berhasil!');
+            location.href='".site_url('welcome')."';
+        </script>";
     }
 }
