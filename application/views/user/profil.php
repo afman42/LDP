@@ -50,22 +50,6 @@
             <!-- Main-menu -->
             <div class="main-menu f-right d-none d-lg-block">
               <nav> 
-              <ul id="navigation">
-                                            
-                        <?php 
-                            if (isset($_SESSION['login_id']) && $_SESSION['login_id'] != '') {
-                              $ids = $this->db->get_where('tbsiswa',['id_siswa' => $_SESSION['login_id']])->row_array();
-                            ?>
-                            <li><a href="<?= base_url('index.php/user/profil'); ?>"><?=$ids['nama']; ?></a></li>
-                            <?php } else { ?>
-                            <li><a>Daftar/Masuk</a>
-                                <ul class="submenu">
-                                    <li><a href="<?= base_url('index.php/login/registrasi'); ?>">Daftar</a></li>
-                                    <li><a href="<?= base_url('index.php/login/masuk'); ?>">Masuk</a></li>
-                                </ul>
-                            </li>
-                        <?php } ?>
-                    </ul>
                 <ul id="navigation">
                         <li><a href="<?= site_url('welcome');?>">Beranda</a></li>
                         <li><a href="<?= site_url('welcome/profil_lembaga') ;?>">Tentang Kami</a>
@@ -77,7 +61,7 @@
                         </ul>
                     </li>
                   <?php if ($_SESSION['login_id'] != '') { 
-                        $ids = $this->db->get_where('tbsiswa',['id_siswa' => $_SESSION['login_id']])->row_array();
+                        $ids = $this->db->get_where('tbsiswa',['idsiswa' => $_SESSION['login_id']])->row_array();
                     ?>
                     <li><a href="<?= base_url('index.php/user/profil'); ?>"><?=$ids['nama']; ?></a></li>
                   <?php } else { ?>
@@ -114,7 +98,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
     <div class="row">
       <div class="col-3 p-3" >
        <center>
-        <img src="../admin/dist/img/<?php echo $i['foto']; ?>" style="width: 4cm; height: 6cm;">
+        <img src="<?= base_url(); ?>assets/dist/img/<?php echo $i['foto']; ?>" style="width: 4cm; height: 6cm;">
       </center>
       <br>
       <small>Ekstensi yang diterima : .jpg .jpeg .png</small>
@@ -330,11 +314,11 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
         <div class="col-4">Nomor Pendaftaran</div>
         <?php if ($status['status'] == 'menunggu') { ?>
           <div class="col-4">
-            <a href="uploadbukti.php" class="text-primary">Ke Form Pembayaran</a>
+            <a href="<?= site_url('user/upload_bukti'); ?>" class="text-primary">Ke Form Pembayaran</a>
           </div>
         <?php } else { } ?>
         <div class="col-3">
-          <a href="payment.php" class="text-primary">Lihat Status Pembayaran</a>
+          <a href="<?= site_url('user/payment'); ?>" class="text-primary">Lihat Status Pembayaran</a>
         </div>
       </div>
     </div>
@@ -348,7 +332,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
 <!--================Blog Area =================-->
 <footer>
   <!--? Footer Start-->
-  <div class="footer-area section-bg" data-background="assets/img/gallery/footer_bg.jpg">
+  <div class="footer-area section-bg" data-background="<?= base_url(); ?>assets/img/gallery/footer_bg.jpg">
    <div class="container">
     <div class="footer-top footer-padding">
       <div class="row d-flex justify-content-between">
@@ -358,7 +342,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
             <div class="single-footer-caption mb-50">
               <!-- logo -->
               <div class="footer-logo">
-                <img src="assets/img/logo/logo_footer.png" alt=""></a>
+                <img src="<?= base_url(); ?>assets/img/logo/logo_footer.png" alt=""></a>
               </div>
               <div class="footer-tittle">
                 <div class="footer-pera">
@@ -424,7 +408,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form method="post" action="controller/upload_foto.php" enctype="multipart/form-data">
+        <form method="post" action="<?= site_url('user/upload_foto'); ?>" enctype="multipart/form-data">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="customFile" name="foto">
             <label class="custom-file-label" for="customFile">Choose file</label>
@@ -445,40 +429,40 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
 
 <!-- JS here -->
 <!-- All JS Custom Plugins Link Here here -->
-<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="<?= base_url();?>assets/js/vendor/modernizr-3.5.0.min.js"></script>
 <!-- Jquery, Popper, Bootstrap -->
-<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-<script src="./assets/js/popper.min.js"></script>
-<script src="./assets/js/bootstrap.min.js"></script>
+<script src="<?= base_url();?>assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="<?= base_url();?>assets/js/popper.min.js"></script>
+<script src="<?= base_url();?>assets/js/bootstrap.min.js"></script>
 <!-- Jquery Mobile Menu -->
-<script src="./assets/js/jquery.slicknav.min.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.slicknav.min.js"></script>
 
 <!-- Jquery Slick , Owl-Carousel Plugins -->
-<script src="./assets/js/owl.carousel.min.js"></script>
-<script src="./assets/js/slick.min.js"></script>
+<script src="<?= base_url();?>assets/js/owl.carousel.min.js"></script>
+<script src="<?= base_url();?>assets/js/slick.min.js"></script>
 
 <!-- One Page, Animated-HeadLin -->
-<script src="./assets/js/wow.min.js"></script>
-<script src="./assets/js/animated.headline.js"></script>
-<script src="./assets/js/jquery.magnific-popup.js"></script>
+<script src="<?= base_url();?>assets/js/wow.min.js"></script>
+<script src="<?= base_url();?>assets/js/animated.headline.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.magnific-popup.js"></script>
 <!-- counter , waypoint -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-<script src="./assets/js/jquery.counterup.min.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.counterup.min.js"></script>
 
 <!-- Nice-select, sticky -->
-<script src="./assets/js/jquery.nice-select.min.js"></script>
-<script src="./assets/js/jquery.sticky.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.nice-select.min.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.sticky.js"></script>
 
 <!-- contact js -->
-<script src="./assets/js/contact.js"></script>
-<script src="./assets/js/jquery.form.js"></script>
-<script src="./assets/js/jquery.validate.min.js"></script>
-<script src="./assets/js/mail-script.js"></script>
-<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="<?= base_url();?>assets/js/contact.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.form.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.validate.min.js"></script>
+<script src="<?= base_url();?>assets/js/mail-script.js"></script>
+<script src="<?= base_url();?>assets/js/jquery.ajaxchimp.min.js"></script>
 
 <!-- Jquery Plugins, main Jquery -->	
-<script src="./assets/js/plugins.js"></script>
-<script src="./assets/js/main.js"></script>
+<script src="<?= base_url();?>assets/js/plugins.js"></script>
+<script src="<?= base_url();?>assets/js/main.js"></script>
 <script>
         // Add the following code if you want the name of the file appear on select
         $(".custom-file-input").on("change", function() {
@@ -490,7 +474,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
             var idsiswa = $(e.relatedTarget).attr('id');
             $.ajax({
               type : 'POST',
-              url  : 'vieweditprofil.php',
+              url  : '<?= site_url('user/view_edit_profil'); ?>',
               data :  'idsiswa='+ idsiswa,
               success : function(data) {
                 $('#load-edit').html(data);

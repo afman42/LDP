@@ -114,7 +114,7 @@ class Login extends CI_Controller {
             $data = $login->row_array();
             $_SESSION['login_id'] = $data['idsiswa'];
             $_SESSION['status'] = true;
-            redirect(site_url('user/uploadbukti'));
+            redirect(site_url('user/upload_bukti'));
         } else {
             echo "<script>alert('Email atau password yang dimasukkan salah!');location.href='".site_url('login/masuk')."'</script>";
         }
