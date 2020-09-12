@@ -44,8 +44,74 @@ class User extends CI_Controller {
 
     public function view_edit_profil()
     {
-        $data['x'] = $this->db->get_where('tbsiswa',['idsiswa' => $_SESSION['login_id']])->row_array();
-        $data['program'] = $this->db->get("tbprogrampaket");
-        $this->load->view('vieweditprofil',$data);
+        $this->load->view('vieweditprofil');
+    }
+
+    public function view_struk()
+    {
+        $this->load->view('user/view-struk');
+    }
+
+    public function ubah_profil()
+    {
+        $idsiswa = $_POST['idsiswa'];
+        $idprogram = $_POST['idprogram'];
+        $nama = $_POST['nama'];
+        $jeniskelamin = $_POST['jeniskelamin'];
+        $NIK_KTP = $_POST['NIK_KTP'];
+        $NIK_KK = $_POST['NIK_KK'];
+        $tempatlahir = $_POST['tempatlahir'];
+        $tgllahir = $_POST['tgllahir'];
+        $agama = $_POST['agama'];
+        $alamat = $_POST['alamat'];
+        $kewarganegaraan = $_POST['kewarganegaraan'];
+        $nohp = $_POST['nohp'];
+        $kelas = $_POST['kelas'];
+
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $namaayah = $_POST['namaayah'];
+        $pekerjaanayah = $_POST['pekerjaanayah'];
+        $pendapatanayah = $_POST['pendapatanayah'];
+        $tahunlahirayah = $_POST['tahunlahirayah'];
+
+        $namaibu = $_POST['namaibu'];
+        $pekerjaanibu = $_POST['pekerjaanibu'];
+        $pendapatanibu = $_POST['pendapatanibu'];
+        $tahunlahiribu = $_POST['tahunlahiribu'];
+
+        $namawali = $_POST['namawali'];
+        $pekerjaanwali = $_POST['pekerjaanwali'];
+        $pendapatanwali = $_POST['pendapatanwali'];
+        $tahunlahirwali = $_POST['tahunlahirwali'];
+
+        if (empty($password)) {
+            $update = "UPDATE tbsiswa SET idprogram='$idprogram', nama='$nama', jeniskelamin='$jeniskelamin', NIK_KTP='$NIK_KTP', NIK_KK='$NIK_KK', tempatlahir='$tempatlahir', tgllahir='$tgllahir', agama='$agama', alamat='$alamat', kewarganegaraan='$kewarganegaraan', nohp='$nohp', namaayah='$namaayah', pekerjaanayah='$pekerjaanayah', pendapatanayah='$pendapatanayah', tahunlahirayah='$tahunlahirayah', namaibu='$namaibu', pekerjaanibu='$pekerjaanibu', pendapatanibu='$pendapatanibu', tahunlahiribu='$tahunlahiribu', namawali='$namawali', pekerjaanwali='$pekerjaanwali', pendapatanwali='$pendapatanwali', tahunlahirwali='$tahunlahirwali', email='$email', kelas='$kelas' WHERE idsiswa='$idsiswa'";
+            if ($this->db->query($update)) {
+                echo json_encode(array(
+                    'status' => 'success',
+                    'message'=> 'success message'
+                ));
+            } else {
+                echo json_encode(array(
+                    'status' => 'error',
+                    'message'=> 'error message'
+                ));
+            } 
+        } else {
+            $update = "UPDATE tbsiswa SET idprogram='$idprogram', nama='$nama', jeniskelamin='$jeniskelamin', NIK_KTP='$NIK_KTP', NIK_KK='$NIK_KK', tempatlahir='$tempatlahir', tgllahir='$tgllahir', agama='$agama', alamat='$alamat', kewarganegaraan='$kewarganegaraan', nohp='$nohp', namaayah='$namaayah', pekerjaanayah='$pekerjaanayah', pendapatanayah='$pendapatanayah', tahunlahirayah='$tahunlahirayah', namaibu='$namaibu', pekerjaanibu='$pekerjaanibu', pendapatanibu='$pendapatanibu', tahunlahiribu='$tahunlahiribu', namawali='$namawali', pekerjaanwali='$pekerjaanwali', pendapatanwali='$pendapatanwali', tahunlahirwali='$tahunlahirwali', email='$email', password='$password', kelas='$kelas' WHERE idsiswa='$idsiswa'";
+            if ($this->db->query($update)) {
+                echo json_encode(array(
+                    'status' => 'success',
+                    'message'=> 'success message'
+                ));
+            } else {
+                echo json_encode(array(
+                    'status' => 'error',
+                    'message'=> 'error message'
+                ));
+            } 
+        }
     }
 }

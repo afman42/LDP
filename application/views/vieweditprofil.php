@@ -80,11 +80,12 @@ if ($_POST['idsiswa']) {
       <div class="col-6">
         <?php 
         $program = $this->db->query("SELECT * FROM tbprogrampaket");
+        $x = $this->db->get_where("tbprogrampaket",['idprogram' => $n['idprogram']])->row_array();
         ?>
         <select name="idprogram" class="form-control">
           <option selected="selected" disabled="disabled">Pilih Program Paket</option>
-          <?php foreach ($program->result_array() as $n) { ?>
-            <option value="<?=$x['idprogram']; ?>" <?php if ($n['idprogram'] == $x['idprogram']) { echo "selected"; }?>><?php echo $x['namaprogram']; ?></option>
+          <?php foreach ($program->result_array() as $k) { ?>
+            <option value="<?=$k['idprogram']; ?>" <?php if ($k['idprogram'] == $x['idprogram']) { echo "selected"; }?>><?php echo $k['namaprogram']; ?></option>
           <?php } ?>
         </select>
       </div>

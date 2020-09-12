@@ -277,7 +277,7 @@
       var idsiswa = $(e.relatedTarget).attr('id');
       $.ajax({
         type : 'POST',
-        url  : 'view-struk.php',
+        url  : '<?= site_url('user/view_struk');?>',
         data :  'idsiswa='+ idsiswa,
         success : function(data) {
           $('#load-struk').html(data);

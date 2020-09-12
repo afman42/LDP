@@ -486,7 +486,7 @@ $i = $this->db->get_where('tbsiswa', ['idsiswa' => $_SESSION['login_id']])->row_
           var data = $('#ubah-data').serialize();
           $.ajax({
             type: 'post',
-            url: "controller/ubah-profil.php",
+            url: "<?= site_url('user/ubah_profil');?>",
             dataType:"json",
             data: data,
             success: function(response) {
