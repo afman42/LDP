@@ -9,7 +9,7 @@ $b = $a->row_array();
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/png" href="../dist/img/book.png">
-  <title>Data Pengelola</title>
+  <title>Data Siswa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="<?= base_url();?>assets/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -18,6 +18,28 @@ $b = $a->row_array();
   <link rel="stylesheet" href="<?= base_url();?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+<style type="text/css">
+@media screen {
+  #printSection {
+    display: none;
+  }
+}
+
+@media print {
+  body {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+</style>
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
 
@@ -75,30 +97,57 @@ $b = $a->row_array();
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <?php if ($_SESSION['jabatan'] != 'Pengelola') { ?>
+              <li class="nav-item">
+                <a href="<?= site_url('dashboard_pengelola');?>" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+            <?php } else { ?>
+              <li class="nav-item">
+                <a href="<?= site_url('dashboard');?>" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+            <?php } ?>
+            <?php if ($_SESSION['jabatan'] != 'Pengelola') { } else { ?>
+              <li class="nav-item">
+                <a href="<?= site_url('pengelola');?>" class="nav-link">
+                  <i class="nav-icon fas fa-user-tie"></i>
+                  <p>Data Pengelola</p>
+                </a>
+              </li>
+            <?php } ?>
             <li class="nav-item">
-              <a href="<?= site_url('dashboard');?>" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Dashboard</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= site_url('pengelola');?>" class="nav-link active">
-                <i class="nav-icon fas fa-user-tie"></i>
-                <p>Data Pengelola</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= site_url('siswa');?>" class="nav-link">
+              <a href="<?= site_url('siswa');?>" class="nav-link active">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Data Siswa</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="<?= site_url('laporan');?>" class="nav-link">
-                <i class="nav-icon fas fa-sticky-note"></i>
-                <p>Laporan</p>
-              </a>
-            </li>
+            <?php if ($_SESSION['jabatan'] != 'Pengelola') { ?>
+              <li class="nav-item">
+                <a href="<?= site_url('programpaket');?>" class="nav-link">
+                  <i class="nav-icon fas fa-cubes"></i>
+                  <p>Data Program Paket</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= site_url('modul');?>" class="nav-link">
+                  <i class="nav-icon fas fa-book"></i>
+                  <p>Data Modul</p>
+                </a>
+              </li>
+            <?php } else {} ?>
+            <?php if ($_SESSION['jabatan'] != 'Pengelola') { } else { ?>
+              <li class="nav-item">
+                <a href="<?= site_url('laporan');?>" class="nav-link">
+                  <i class="nav-icon fas fa-sticky-note"></i>
+                  <p>Laporan</p>
+                </a>
+              </li>
+            <?php } ?>
           </ul>
         </nav>
       </div>
@@ -112,7 +161,7 @@ $b = $a->row_array();
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Data Pengelola</h1>
+              <h1 class="m-0 text-dark">Laporan Siswa</h1>
             </div>
           </div>
         </div>
@@ -123,14 +172,21 @@ $b = $a->row_array();
       <section class="content">
         <div class="container-fluid">
           <div class="card">
-            <div class="card-header">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahmodal">
-                <i class="fas fa-plus"></i> &nbsp;
-                Tambah Data
-              </button>
+            <div class="row m-2">
+              <div class="col-sm-1">
+                <a href="#" class="btn btn-success">
+                  <small>
+                    <i class="fas fa-check"></i>
+                    Verifikasi
+                  </small>
+                </a>
+              </div>
+              <div class="col-sm-11">
+                <p class="text-danger">Verifikasi di laporan berfungsi sebagai reset ulang siswa, misalnya ada kesalahan dari pihak pengelola maka bisa di lakukkan reset ulang pembayaran!</p>
+              </div>
             </div>
-            <div class="card-body">
-              <div id="load-pengelola"></div>
+            <div class="card-body table-responsive">
+              <div id="load-siswa"></div>
             </div>
           </div>
         </div>
@@ -140,63 +196,36 @@ $b = $a->row_array();
     <!-- /.content-wrapper -->
   </div>
   <!-- ./wrapper -->
-  <div class="modal fade" id="tambahmodal">
-    <div class="modal-dialog modal-lg">
+  <div class="modal fade" id="modalformulir">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Tambah Data Pengelola</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
         <div class="modal-body">
-          <form method="post" id="tambah-pengelola">
-            <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Lengkap">
-            <br>
-            <div class="row">
-              <div class="col-6">
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email">
-              </div>
-              <div class="col-6">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-6">
-                <select id="jabatan" name="jabatan" class="form-control">
-                  <option selected="selected" disabled="disabled">Pilih Jabatan</option>
-                  <option value="Pengelola">Pengelola</option>
-                  <option value="Admin">Admin</option>
-                </select>
-              </div>
-            </div>
-          </form>
+          <div id="load-formulir"></div>
         </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="tambah">Simpan Data</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" id="print">Print Formulir</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
   </div>
-  <div class="modal fade" id="ubahmodal">
-    <div class="modal-dialog modal-lg">
+
+  <div class="modal fade" id="modalbayar">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Ubah Data Pengelola</h4>
+          <h4 class="modal-title">Bukti Pembayaran</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div id="load-edit"></div>
+          <div id="load-pembayaran"></div>
         </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="simpan">Simpan Data</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -218,64 +247,52 @@ $b = $a->row_array();
   <script src="<?= base_url();?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
   <script src="<?= base_url();?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
   <!-- page script -->
-  
+
   <script>
     $(document).ready(function() {
-      $('#load-pengelola').load('<?= site_url('pengelola/view_pengelola');?>');
+      $('#load-siswa').load("<?= site_url('laporan/load_view_siswa_2');?>");
     });
     $(document).ready(function(){
-      $('#ubahmodal').on('show.bs.modal', function (e) {
-        var iduser = $(e.relatedTarget).attr('id');
+      $('#modalformulir').on('show.bs.modal', function (e) {
+        var idsiswa = $(e.relatedTarget).attr('id');
         $.ajax({
           type : 'POST',
-          url  : '<?= site_url('pengelola/view_edit_pengelola');?>',
-          data :  'iduser='+ iduser,
+          url  : '<?= site_url('siswa/view_formulir');?>',
+          data :  'idsiswa='+ idsiswa,
           success : function(data) {
-            $('#load-edit').html(data);
+            $('#load-formulir').html(data);
           }
         });
       });
     });
-    $(document).on('click', '#simpan', function(){
-      var data = $('#ubah-pengelola').serialize();
-      $.ajax({
-        type: 'post',
-        url: "<?= site_url('pengelola/ubah_pengelola');?>",
-        dataType:"json",
-        data: data,
-        success: function(response) {
-          if(response.status === "success") {
-            alert('Edit Berhasil!');
-            $('#ubahmodal').modal('hide');
-      	   $('#load-pengelola').load('<?= site_url('pengelola/view_pengelola');?>');
-          } else if(response.status === "error") {
-            alert('Edit Gagal!')
-            $('#ubahmodal').modal('hide');
-      	  	$('#load-pengelola').load('<?= site_url('pengelola/view_pengelola');?>');
+    $(document).ready(function(){
+      $('#modalbayar').on('show.bs.modal', function (e) {
+        var idsiswa = $(e.relatedTarget).attr('id');
+        $.ajax({
+          type : 'POST',
+          url  : '<?= site_url('siswa/view_pembayaran');?>',
+          data :  'idsiswa='+ idsiswa,
+          success : function(data) {
+            $('#load-pembayaran').html(data);
           }
-        }
+        });
       });
     });
-    $(document).on('click', '#tambah', function(){
-      var data = $('#tambah-pengelola').serialize();
-     $.ajax({
-       type: 'post',
-       url: "<?= site_url('pengelola/tambah_pengelola');?>",
-       dataType:"json",
-       data: data,
-       success: function(response) {
-        if(response.status === "success") {
-          alert('Tambah Berhasil!');
-          $('#tambahmodal').modal('hide');
-      	  $('#load-pengelola').load('<?= site_url('pengelola/view_pengelola');?>');
-        } else if(response.status === "error") {
-          alert('Tambah Gagal!')
-          $('#tambahmodal').modal('hide');
-      	  $('#load-pengelola').load('<?= site_url('pengelola/view_pengelola');?>');
-        }
+    document.getElementById("print").onclick = function () {
+      printElement(document.getElementById("print-area"));
+    }
+    function printElement(elem) {
+      var domClone = elem.cloneNode(true);
+      var $printSection = document.getElementById("printSection");
+      if (!$printSection) {
+        var $printSection = document.createElement("div");
+        $printSection.id = "printSection";
+        document.body.appendChild($printSection);
       }
-    });
-   });
- </script>
+      $printSection.innerHTML = "";
+      $printSection.appendChild(domClone);
+      window.print();
+    }
+  </script>
 </body>
 </html>
